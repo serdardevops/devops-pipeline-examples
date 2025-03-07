@@ -1,5 +1,5 @@
 DEVOPS PIPELINE EXAMPLES
-
+```
 devops-pipeline-examples/
 ├── java-maven/
 │   ├── Jenkinsfile
@@ -15,7 +15,7 @@ devops-pipeline-examples/
 │   │   └── buildDocker.groovy
 │   └── Jenkinsfile
 └── README.md
-
+```
 # DevOps Pipeline Examples 🚀
 
 This repository contains multiple `Jenkinsfile` examples for different DevOps scenarios. Each subdirectory represents a specific use case with its own `Jenkinsfile` for Jenkins pipelines.
