@@ -1,26 +1,20 @@
 DEVOPS PIPELINE EXAMPLES
 
 devops-pipeline-examples/
-│
 ├── java-maven/
 │   ├── Jenkinsfile
 │   └── pom.xml
-│
 ├── docker-app/
 │   ├── Jenkinsfile
 │   └── Dockerfile
-│
 ├── kubernetes-deploy/
 │   ├── Jenkinsfile
 │   └── deployment.yaml
-│
 ├── shared-lib/
 │   ├── vars/
 │   │   └── buildDocker.groovy
 │   └── Jenkinsfile
-│
 └── README.md
-
 
 # DevOps Pipeline Examples 🚀
 
