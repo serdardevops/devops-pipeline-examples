@@ -1,0 +1,31 @@
+@Library('shared-lib') _
+pipeline {
+    agent any
+    // Define environment variables for DockerHub credentials
+    environment {
+        DOCKERHUB_CRED = credentials('dockerhub-cred')
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the repository using Git credentials
+                git branch: 'main', credentialsId: 'github-cred', url: 'https://github.com/serdardevops/devops-pipeline-examples.git'
+            }
+        }
+        stage('Build and Push Docker Image') {
+            steps {
+                // Use the shared library function to build and push
+                dir('docker-app') {
+                    sh 'echo $DOCKERHUB_CRED_PSW | docker login -u $DOCKERHUB_CRED_USR --password-stdin'
+                    buildDocker('serdardevops/myapp:latest')
+                }
+            }
+        }
+    }
+    post {
+        // Log out from DockerHub after the pipeline completes
+        always {
+            sh 'docker logout'
+        }
+    }
+}
