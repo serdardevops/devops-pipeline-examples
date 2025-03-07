@@ -1,0 +1,6 @@
+# Use OpenJDK 11 as the base image
+FROM openjdk:11-jre-slim
+# Copy the built JAR file to the container
+COPY target/demo-1.0-SNAPSHOT.jar /app.jar
+# Define the entry point to run the Java application
+ENTRYPOINT ["java", "-jar", "/app.jar"]
