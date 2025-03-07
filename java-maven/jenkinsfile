@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    // Define the Maven tool configured in Jenkins
+    tools {
+        maven 'Maven'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the repository using Git credentials
+                git branch: 'main', credentialsId: 'github-cred', url: 'https://github.com/serdardevops/devops-pipeline-examples.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                // Navigate to the java-maven directory and run Maven build
+                dir('java-maven') {
+                    sh 'mvn clean install -DskipTests'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                // Run Maven tests in the java-maven directory
+                dir('java-maven') {
+                    sh 'mvn test'
+                }
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                // Perform code analysis using SonarQube
+                dir('java-maven') {
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'mvn sonar:sonar'
+                    }
+                }
+            }
+        }
+    }
+    post {
+        // Archive artifacts regardless of the build result
+        always {
+            archiveArtifacts artifacts: 'java-maven/target/*.jar', allowEmptyArchive: true
+        }
+        // Send an email if the build fails
+        failure {
+            mail to: 'team@example.com', subject: "Build Failed: ${env.JOB_NAME}", body: "Check ${env.BUILD_URL}"
+        }
+    }
+}
