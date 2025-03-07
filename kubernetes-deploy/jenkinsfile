@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    // Define environment variable for Kubernetes credentials
+    environment {
+        KUBE_CRED = credentials('kube-cred')
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the repository using Git credentials
+                git branch: 'main', credentialsId: 'github-cred', url: 'https://github.com/serdardevops/devops-pipeline-examples.git'
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                // Apply Kubernetes deployment manifest
+                dir('kubernetes-deploy') {
+                    sh 'kubectl --kubeconfig=$KUBE_CRED apply -f deployment.yaml'
+                }
+            }
+        }
+        stage('Sync with ArgoCD') {
+            steps {
+                // Sync the application with ArgoCD
+                dir('kubernetes-deploy') {
+                    sh 'argocd app sync myapp --kubeconfig=$KUBE_CRED'
+                }
+            }
+        }
+    }
+}
