@@ -40,4 +40,4 @@ This repository contains multiple `Jenkinsfile` examples for different DevOps sc
 Feel free to fork this repository and contribute by adding more `Jenkinsfile` examples!
 
 ---
-Created by Serdar | March 2025
+Created by Serdar Selçuk | March 2025
